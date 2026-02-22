@@ -5,63 +5,94 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
+/* СВЕТЛАЯ ТЕМА */
 :root {
   --bg: #ffffff;
-  --ink: #111827;
-  --accent: #2563eb;
-  --accent-soft: #f0f7ff;
-  --muted: #6b7280;
-  --border: #e5e7eb;
+  --ink: #0f172a;       /* Slate 900 — очень контрастный */
+  --ink-soft: #475569;  /* Slate 600 — для подзаголовков */
+  --accent: #2563eb;    /* Blue 600 */
+  --accent-soft: #eff6ff;
+  --muted: #64748b;     /* Slate 500 */
+  --border: #e2e8f0;    /* Slate 200 */
   --card-bg: #ffffff;
+}
+
+/* ТЕМНАЯ ТЕМА */
+.dark {
+  --bg: #020617;       
+  --ink: #f8fafc;      
+  --ink-soft: #94a3b8;
+  --accent: #3b82f6;   
+  --accent-soft: #1e293b; 
+  --muted: #94a3b8;    
+  --border: #1e293b;   
+  --card-bg: #0f172a;   
 }
 
 @layer base {
   body {
     background-color: var(--bg);
     color: var(--ink);
-    @apply antialiased font-sans;
+    @apply antialiased font-sans transition-colors duration-300;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+    margin: 0;
+    padding: 0;
   }
 }
 
 @layer utilities {
+  /* Базовая карточка */
   .card-modern {
-    @apply bg-[var(--card-bg)] border border-[var(--border)] rounded-[20px] p-5 transition-all duration-200 cursor-pointer;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    @apply rounded-[24px] p-5 transition-all duration-200 shadow-sm;
   }
 
   .card-modern:hover {
-    @apply border-slate-300;
+    border-color: var(--accent);
+    @apply shadow-md;
   }
 
-  .card-selected {
-    @apply border-[var(--accent)] bg-[var(--accent-soft)];
+  /* ГЛАВНАЯ СИНЯЯ КАРТОЧКА (Hero) */
+  /* Мы фиксируем цвета, чтобы они НЕ МЕНЯЛИСЬ при смене темы */
+  .card-hero {
+    background-color: #2563eb !important;
+    color: #ffffff !important;
+    border: none !important;
+    @apply rounded-[24px] p-6 shadow-xl shadow-blue-500/20 relative overflow-hidden;
   }
 
   .btn-primary {
-    @apply bg-[var(--accent)] text-white font-bold py-4 px-8 rounded-2xl transition-all active:scale-[0.98] disabled:opacity-30 disabled:pointer-events-none;
-  }
-
-  .progress-segment {
-    @apply h-1.5 rounded-full transition-all duration-500 bg-slate-100;
-  }
-
-  .progress-active {
-    @apply bg-[var(--accent)];
+    background-color: var(--accent);
+    @apply text-white font-bold py-4 px-8 rounded-2xl transition-all active:scale-[0.98] disabled:opacity-30;
   }
 }
 
+/* Стили текста с повышенным контрастом */
 .text-heading {
-  @apply font-bold tracking-tight text-[var(--ink)] leading-tight text-[26px];
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink) !important;
+  line-height: 1.2;
+  font-size: 26px;
 }
 
 .text-subheading {
-  @apply text-[var(--muted)] font-normal leading-relaxed text-[16px];
+  color: var(--ink-soft) !important;
+  font-weight: 600;
+  line-height: 1.5;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .card-title {
-  @apply font-bold text-[18px] text-[var(--ink)];
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink) !important;
 }
 
 .card-desc {
-  @apply text-[var(--muted)] text-[14px];
+  color: var(--muted) !important;
+  font-size: 14px;
 }

@@ -1,8 +1,38 @@
+// src/screens/Login.tsx
 import React from 'react';
 import { motion } from 'motion/react';
-import { Chrome, Apple, ArrowRight } from 'lucide-react';
+import { Chrome, Apple } from 'lucide-react';
+// Импортируем Firebase
+import { signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider, appleProvider } from '../firebase';
 
-export default function Login({ onLogin }: { onLogin: () => void }) {
+export default function Login({ onLogin }: { onLogin: (userData?: any) => void }) {
+  
+  // Функция входа через Google
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log("Успешный вход Google! Пользователь:", result.user.displayName);
+      // Передаем пользователя в App.tsx
+      onLogin(result.user);
+    } catch (error) {
+      console.error("Ошибка при входе через Google:", error);
+      alert("Не удалось войти через Google. Попробуй еще раз.");
+    }
+  };
+
+  // Функция входа через Apple
+  const handleAppleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, appleProvider);
+      console.log("Успешный вход Apple! Пользователь:", result.user.displayName);
+      onLogin(result.user);
+    } catch (error) {
+      console.error("Ошибка при входе через Apple:", error);
+      alert("Не удалось войти через Apple.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[var(--bg)] flex flex-col items-center justify-center p-8 max-w-md mx-auto">
       <div className="w-full max-w-sm">
@@ -37,8 +67,8 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
           <motion.button 
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
-            onClick={onLogin}
-            className="w-full flex items-center justify-center gap-4 py-4 bg-white border border-[var(--border)] rounded-2xl group transition-all hover:border-slate-300"
+            onClick={handleGoogleLogin}
+            className="w-full flex items-center justify-center gap-4 py-4 bg-white border border-[var(--border)] rounded-2xl group transition-all hover:border-slate-300 cursor-pointer"
           >
             <Chrome size={20} className="text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors" />
             <span className="font-bold text-[16px] text-[var(--ink)]">Войти через Google</span>
@@ -47,19 +77,14 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
           <motion.button 
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
-            onClick={onLogin}
-            className="w-full flex items-center justify-center gap-4 py-4 bg-[var(--ink)] text-white rounded-2xl font-bold transition-all shadow-lg shadow-slate-900/10"
+            onClick={handleAppleLogin}
+            className="w-full flex items-center justify-center gap-4 py-4 bg-[var(--ink)] text-white rounded-2xl font-bold transition-all shadow-lg shadow-slate-900/10 cursor-pointer"
           >
             <Apple size={20} fill="currentColor" />
             <span className="text-[16px]">Войти через Apple</span>
           </motion.button>
         </div>
-
-        <footer className="mt-20 text-center">
-          <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[var(--muted)] opacity-30">Powered by Advanced AI</p>
-        </footer>
       </div>
     </div>
   );
 }
-
