@@ -14,6 +14,7 @@ import LearningSession from './screens/LearningSession';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'; 
 import { auth, db } from './firebase'; 
+import MockExam from './screens/MockExam';
 
 interface UserData {
   name: string;
@@ -168,6 +169,7 @@ function AppContent() {
           />
         } />
         <Route path="/session" element={<LearningSession onExit={handleExitSession} />} />
+        <Route path="/exam" element={<MockExam />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </div>

@@ -106,6 +106,19 @@ export default function Dashboard({
           </div>
         </div>
 
+        {/* НОВАЯ КНОПКА: ПРОБНЫЙ ЭКЗАМЕН */}
+        <motion.button 
+          whileTap={{ scale: 0.98 }}
+          onClick={() => navigate('/exam')}
+          className="w-full mb-8 py-4 px-6 bg-[var(--card-bg)] border-2 border-dashed border-[var(--accent)] rounded-[24px] flex items-center justify-between text-[var(--ink)] group hover:bg-[var(--accent)] transition-all overflow-hidden relative"
+        >
+          <div className="flex flex-col items-start z-10 relative text-left">
+            <span className="font-bold text-lg group-hover:text-white transition-colors">Сдать Mock Exam</span>
+            <span className="text-[12px] opacity-70 font-medium group-hover:text-white/80 transition-colors">Узнай свой точный балл IELTS</span>
+          </div>
+          <ChevronRight size={24} className="text-[var(--accent)] group-hover:text-white z-10 relative transition-colors" />
+        </motion.button>
+
         {/* ЖЕЛЕЗОБЕТОННАЯ КАРТОЧКА */}
         <motion.div 
           whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}
