@@ -25,7 +25,7 @@ export default function Dashboard({
   isLight, 
   onToggleTheme, 
   userName,
-  setUserName, // Добавили пропс для синхронизации с App.tsx
+  setUserName,
   score,
   streak,
   onLogout 
@@ -46,7 +46,6 @@ export default function Dashboard({
   const [newName, setNewName] = useState(userName);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Синхронизируем локальный input, если userName изменился в App.tsx
   useEffect(() => {
     setNewName(userName);
   }, [userName]);
@@ -65,9 +64,7 @@ export default function Dashboard({
       const userRef = doc(db, "users", auth.currentUser.uid);
       await updateDoc(userRef, { name: newName.trim() });
       
-      // Обновляем состояние в App.tsx, чтобы имя сменилось везде сразу
       setUserName(newName.trim());
-      
       alert("Настройки сохранены!");
     } catch (error) {
       console.error("Error updating name:", error);
@@ -109,14 +106,15 @@ export default function Dashboard({
           </div>
         </div>
 
+        {/* ЖЕЛЕЗОБЕТОННАЯ КАРТОЧКА */}
         <motion.div 
           whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}
-          className="card-hero cursor-pointer"
+          className="bg-[#2563eb] text-white border-none rounded-[24px] p-6 relative overflow-hidden shadow-xl shadow-blue-500/20 cursor-pointer"
           onClick={onStartSession}
         >
           <div className="absolute top-0 right-0 p-6 opacity-10 text-white"><Zap size={100} /></div>
           <div className="relative z-10 text-white">
-            <div className="flex items-center gap-2 mb-3 text-white/80">
+            <div className="flex items-center gap-2 mb-3 text-white/90">
               <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
               <p className="text-[10px] uppercase tracking-widest font-bold">Следующая цель</p>
             </div>
@@ -124,7 +122,7 @@ export default function Dashboard({
             <p className="text-white/90 text-[13px] mb-6 font-medium max-w-[200px]">
               Секция 1: Освоение пространственной лексики и предлогов.
             </p>
-            <div className="w-full py-3.5 bg-white text-blue-600 rounded-xl font-bold flex items-center justify-center gap-3 shadow-lg">
+            <div className="w-full py-3.5 bg-white text-[#2563eb] hover:bg-blue-50 transition-colors rounded-xl font-bold flex items-center justify-center gap-3 shadow-lg">
               <Play size={16} fill="currentColor" />
               <span className="uppercase tracking-[0.1em] text-[10px]">Начать сессию</span>
             </div>
